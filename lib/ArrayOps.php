@@ -10,6 +10,16 @@ class ArrayOps{
         }
         return $results;
     }
+
+    public static function filter($items, $func){
+        $results = [];
+        foreach ($items as $item) {
+            if($func($item) == 2){
+                $results[] = $item;
+            }
+        }
+        return $results;
+    }
 }
 
 ?>
