@@ -14,10 +14,10 @@ $names = ArrayOps::map($users, function($user){
     return $user['name'];
 });
 
-$names = ArrayOps::filter($users, function($user){
+$names1 = ArrayOps::filter($users, function($user){
     return $user['id'];
 });
 
-var_dump($users, $names);
+var_dump($users, $names, $names1);
 
 ?>
