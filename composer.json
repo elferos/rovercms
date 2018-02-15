@@ -1,0 +1,15 @@
+{
+    "name": "elfbo_000/rovercms",
+    "authors": [
+        {
+            "name": "elferos",
+            "email": "elfbox@mail.ru"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            
+        }
+    }
+}
