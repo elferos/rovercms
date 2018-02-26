@@ -2,6 +2,8 @@
 
 namespace Engine;
 
+use Engine\Helper\Common;
+
 class Cms{
     /**
      * @var DI
@@ -24,10 +26,22 @@ class Cms{
      * @return void
      */
     public function run(){
-        $db = $this->di->get('test2');
-        print_r($db);
-        $this->router->add('home', '/', 'HomeController:index');
-        $this->router->add('product', '/product/{id}', 'ProductController:index');
+        // $db = $this->di->get('db');
+        // print_r($db);
+        $this->router->add('home', '/rovercms/', 'HomeController:index');
+        $this->router->add('product', '/rovercms/user/12', 'ProductController:index');
+
+        $routerDispatch = $this->router->dispatch(Common::getMethod(), Common::getPathURL());
+        // var_dump(Common::getMethod());
+        // var_dump(Common::getPathURL());
+        // var_dump($this->router);
+        print_r($routerDispatch);
+        // var_dump($this->router);
+
+        // print_r($_SERVER);
+        // echo Common::getMethod();
+
+        // print Common::getPathURL();
     }   
 }
 ?>
