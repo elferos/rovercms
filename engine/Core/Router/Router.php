@@ -32,8 +32,7 @@ class Router{
     }
 
     public function dispatch($method, $uri){
-        $temp = $this->getDispatcher()->dispatch($method, $uri); 
-        return $temp;
+        return $this->getDispatcher()->dispatch($method, $uri);
     }
 
     public function getDispatcher(){

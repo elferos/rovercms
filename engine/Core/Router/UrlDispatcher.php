@@ -70,7 +70,7 @@ class UrlDispatcher{
     private function doDispatch($method, $uri){
         foreach ($this->routes($method) as $route => $controller) {
             $pattern = '#^'. $route . '$#s';
-
+            print ":".$route;
             if (preg_match($pattern, $uri, $parameters)) {
                 return new DispatchedRoute($controller, $parameters);
             }

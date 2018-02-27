@@ -29,19 +29,14 @@ class Cms{
         // $db = $this->di->get('db');
         // print_r($db);
         $this->router->add('home', '/rovercms/', 'HomeController:index');
-        $this->router->add('product', '/rovercms/user/12', 'ProductController:index');
+        $this->router->add('news', '/rovercms/news', 'HomeController:news');
 
         $routerDispatch = $this->router->dispatch(Common::getMethod(), Common::getPathURL());
-        // var_dump(Common::getMethod());
-        // var_dump(Common::getPathURL());
-        // var_dump($this->router);
-        print_r($routerDispatch);
-        // var_dump($this->router);
+        list($class, $action) = explode(':', $routerDispatch->getController(), 2);
 
-        // print_r($_SERVER);
-        // echo Common::getMethod();
+        $controller = '\\Cms\\Controller\\' . $class;
+        call_user_func_array([new $controller($this->di), $action], $routerDispatch->getParameters());
 
-        // print Common::getPathURL();
     }   
 }
 ?>
