@@ -3,6 +3,7 @@
 namespace Engine;
 
 use Engine\Helper\Common;
+use Engine\Core\Router\DispatchedRoute;
 
 class Cms{
     /**
@@ -26,17 +27,27 @@ class Cms{
      * @return void
      */
     public function run(){
-        // $db = $this->di->get('db');
-        // print_r($db);
-        $this->router->add('home', '/rovercms/', 'HomeController:index');
-        $this->router->add('news', '/rovercms/news', 'HomeController:news');
-
-        $routerDispatch = $this->router->dispatch(Common::getMethod(), Common::getPathURL());
-        list($class, $action) = explode(':', $routerDispatch->getController(), 2);
-
-        $controller = '\\Cms\\Controller\\' . $class;
-        call_user_func_array([new $controller($this->di), $action], $routerDispatch->getParameters());
-
+        try{
+            $this->router->add('home', '/rovercms/', 'HomeController:index');
+            $this->router->add('news', '/rovercms/news', 'HomeController:news');
+            $this->router->add('news_single', '/rovercms/news/(id:int)', 'HomeController:news');
+    
+            $routerDispatch = $this->router->dispatch(Common::getMethod(), Common::getPathURL());
+    
+            if($routerDispatch == null){
+                $routerDispatch = new DispatchedRoute('ErrorController:page404');
+            }
+    
+            list($class, $action) = explode(':', $routerDispatch->getController(), 2);
+    
+            $controller = '\\Cms\\Controller\\' . $class;
+            $parameters = $routerDispatch->getParameters();
+            call_user_func_array([new $controller($this->di), $action], $parameters);
+        }
+        catch(\Exception $e){
+            echo $e->getMessage();
+            exit;
+        }
     }   
 }
 ?>
