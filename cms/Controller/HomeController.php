@@ -3,7 +3,8 @@ namespace Cms\Controller;
 
 class HomeController extends CmsController{
      public function index(){
-        echo 'Index Page';
+        $data = ['name' => 'Andrey'];
+        $this->view->render('index', $data);
     }
 
     public function news($id){

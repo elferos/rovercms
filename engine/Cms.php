@@ -28,10 +28,10 @@ class Cms{
      */
     public function run(){
         try{
-            $this->router->add('home', '/rovercms/', 'HomeController:index');
-            $this->router->add('news', '/rovercms/news', 'HomeController:news');
-            $this->router->add('news_single', '/rovercms/news/(id:int)', 'HomeController:news');
-    
+            // загрузим все роуты из файла
+            require_once __DIR__.'/../cms/Route.php';
+
+            // 
             $routerDispatch = $this->router->dispatch(Common::getMethod(), Common::getPathURL());
     
             if($routerDispatch == null){
