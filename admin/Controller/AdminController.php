@@ -20,6 +20,10 @@ class AdminController extends Controller{
 
         $this->auth = new Auth();
 
+        if (isset($this->request->get['logout'])) {
+            $this->auth->unAuthorize();
+        }
+
         $this->checkAuthorization();
     }
 
@@ -27,6 +31,11 @@ class AdminController extends Controller{
      * @return void
      */
     public function checkAuthorization(){
+
+        if($this->auth->hashUser() !== null) {
+            $this->auth->authorize($this->auth->hashUser());
+        }
+
         if(!$this->auth->authorized()){
             // redirect to login form
             header('Location: /rovercms/admin/login/', true, 301);
