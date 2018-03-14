@@ -53,7 +53,7 @@
                 </div>
                 
                 <div class="right-toolbar">
-                    <a href="?logout=true">
+                    <a href="/rovercms/admin/logout/">
                         <i class="icon-logout icons"></i> Logout
                     </a>
                 </div>
