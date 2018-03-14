@@ -20,13 +20,19 @@ class AdminController extends Controller{
 
         $this->auth = new Auth();
 
-        if(!$this->auth->authorized and $this->request->server['REQUEST_URI'] !== '/rovercms/admin/login/'){
+        $this->checkAuthorization();
+    }
+
+    /**
+     * @return void
+     */
+    public function checkAuthorization(){
+        if(!$this->auth->authorized()){
             // redirect to login form
             header('Location: /rovercms/admin/login/', true, 301);
             exit;
         }
     }
-
 }
 
 ?>
