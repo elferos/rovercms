@@ -3,6 +3,7 @@
 namespace Engine\Core\Database;
 
 use \PDO;
+use Engine\Core\Config\Config;
 
 class Connection {
     private $link;
@@ -19,14 +20,10 @@ class Connection {
      */
     private function connect(){
         // $config = require_once 'config.php';
-        $config = [
-            'host'     => 'localhost',
-            'db_name'  => 'test_db',
-            'username' => 'root',
-            'password' => '',
-            'charset'  => 'utf8'
-        ];
+        $config = Config::file('database');
+
         $dsn = 'mysql:host='.$config['host'].';dbname='.$config['db_name'].';charset='.$config['charset'];
+
         try {
             $this->link = new PDO($dsn, $config['username'], $config['password']);
         } catch (PDOException $e) {
