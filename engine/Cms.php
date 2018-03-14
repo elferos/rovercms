@@ -29,7 +29,7 @@ class Cms{
     public function run(){
         try{
             // загрузим все роуты из файла
-            require_once __DIR__.'/../cms/Route.php';
+            require_once __DIR__.'/../' . mb_strtolower(ENV) . '/Route.php';
 
             // 
             $routerDispatch = $this->router->dispatch(Common::getMethod(), Common::getPathURL());
@@ -40,7 +40,7 @@ class Cms{
     
             list($class, $action) = explode(':', $routerDispatch->getController(), 2);
     
-            $controller = '\\Cms\\Controller\\' . $class;
+            $controller = '\\' . ENV . '\\Controller\\' . $class;
             $parameters = $routerDispatch->getParameters();
             call_user_func_array([new $controller($this->di), $action], $parameters);
         }

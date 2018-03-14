@@ -1,3 +1,3 @@
 <?php $this->theme->header(); ?>
-Index template <?= $name ?><br>
+Index Template <?= $name ?><br>
 <?php $this->theme->footer(); ?>
