@@ -1,11 +1,26 @@
 <?php
 namespace Engine\Core\Template;
 
-class View{
-    public function __construct(){
+use Engine\Core\Template\Theme;
 
+class View{
+    /**
+     * @var \Engine\Core\Template\Theme
+     */
+    protected $theme;
+
+    /**
+     * View conctructor
+     */
+    public function __construct(){
+        $this->theme = new Theme();
     }
 
+    /**
+     * @param [type] $template
+     * @param array $vars
+     * @return void
+     */
     public function render($template, $vars = []){
         $templatePath = ROOT_DIR . '\\content\\themes\\default\\' . $template . '.php';
 
@@ -14,6 +29,8 @@ class View{
                 sprintf('Template "%s" not found in "%s"', $template, $templatePath)
             );
         }
+
+        $this->theme->setData($vars);
 
         extract($vars);
 
