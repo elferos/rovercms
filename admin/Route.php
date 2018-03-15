@@ -8,4 +8,6 @@ $this->router->add('auth-admin', '/rovercms/admin/auth/', 'LoginController:authA
 $this->router->add('dashboard', '/rovercms/admin/', 'DashboardController:index');
 $this->router->add('logout', '/rovercms/admin/logout/', 'AdminController:logout');
 
+$this->router->add('pages', '/rovercms/admin/pages/', 'PageController:listing');
+$this->router->add('page-create', '/rovercms/admin/pages/create/', 'PageController:create');
 ?>
