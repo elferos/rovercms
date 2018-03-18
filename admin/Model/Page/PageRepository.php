@@ -15,4 +15,19 @@ class PageRepository extends Model
             
         return $this->db->query($sql);
     }
+
+    /**
+     * @param [type] $params
+     * @return void
+     */
+    public function createPage($params)
+    {
+        $page = new Page;
+        $page->setTitle($params['title']);
+        $page->setContent($params['content']);
+        $pageId = $page->save();
+
+        return $pageId;
+    }
+
 }

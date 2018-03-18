@@ -38,7 +38,8 @@ class Connection {
      * @param array $values
      * @return void
      */
-    public function execute($sql, $values = []){
+    public function execute($sql, $values = [])
+    {
         $sth = $this->link->prepare($sql);
         return $sth->execute($values);
     }
@@ -48,15 +49,21 @@ class Connection {
      * @param array $values
      * @return void
      */
-    public function query($sql, $values = []){
+    public function query($sql, $values = [])
+    {
         $sth = $this->link->prepare($sql);
         $sth->execute($values);
         $result = $sth->fetchALL(PDO::FETCH_ASSOC);
-        if($result === false){
+        if ($result === false) {
             return [];
         }
 
         return $result;
+    }
+
+    public function lastInsertId()
+    {
+        return $this->link->lastInsertId();
     }
 }
 ?>

@@ -3,27 +3,29 @@
     <main>
         <div class="container">
             <div class="row">
-                <div class="col">
+                <div class="col page-title">
                     <h3>Create page</h3>
                 </div>
-            </div>  
+            </div>
             <div class="row">
                 <div class="col-9">
-                    <form>
+                    <form id="formPage">
                         <div class="form-group">
                             <label for="formTitle">Title</label>
-                            <input type="text" class="form-control" id="formTitle" placeholder="Title page...">
+                            <input type="text" name="title" class="form-control" id="formTitle" placeholder="Title page...">
                         </div>
                         <div class="form-group">
                             <label for="formContent">Content</label>
-                            <textarea class="form-control" id="formContent"></textarea>
+                            <textarea name="content" id="redactor" class="form-control" id="formContent"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="col-3">
                     <div>
                         <p>Publish this page</p>
-                        <button type="submit" class="btn btn-primary">Publish</button>
+                        <button type="submit" class="btn btn-primary" onclick="page.add()">
+                            Publish
+                        </button>
                     </div>
                 </div>
             </div>
@@ -31,4 +33,3 @@
     </main>
 
 <?php $this->theme->footer(); ?>
-
