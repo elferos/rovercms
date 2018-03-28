@@ -86,9 +86,9 @@ class Theme{
             $templateFile = ROOT_DIR . '/View/' . $nameFile . '.php';
         }
             
-            if(is_file($templateFile)){
-                extract($data);
-                require_once $templateFile;
+        if (is_file($templateFile)) {
+            extract(array_merge($data, $this->data));
+            require_once $templateFile;
         }
         else {
             throw new \Exception(
