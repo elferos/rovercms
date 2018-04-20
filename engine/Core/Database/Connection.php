@@ -3,6 +3,7 @@
 namespace Engine\Core\Database;
 
 use \PDO;
+use Engine\Core\Config\Config;
 
 class Connection {
     private $link;
@@ -19,14 +20,10 @@ class Connection {
      */
     private function connect(){
         // $config = require_once 'config.php';
-        $config = [
-            'host'     => 'localhost',
-            'db_name'  => 'test_db',
-            'username' => 'root',
-            'password' => '',
-            'charset'  => 'utf8'
-        ];
+        $config = Config::file('database');
+
         $dsn = 'mysql:host='.$config['host'].';dbname='.$config['db_name'].';charset='.$config['charset'];
+
         try {
             $this->link = new PDO($dsn, $config['username'], $config['password']);
         } catch (PDOException $e) {
@@ -37,27 +34,36 @@ class Connection {
     }
 
     /**
-     * @param $sql
-     * @return mixed
+     * @param [type] $sql
+     * @param array $values
+     * @return void
      */
-    public function execute($sql){
+    public function execute($sql, $values = [])
+    {
         $sth = $this->link->prepare($sql);
-        return $sth->execute();
+        return $sth->execute($values);
     }
 
     /**
-     * @param $sql
-     * @return array
+     * @param [type] $sql
+     * @param array $values
+     * @return void
      */
-    public function query($sql){
+    public function query($sql, $values = [])
+    {
         $sth = $this->link->prepare($sql);
-        $sth->execute();
+        $sth->execute($values);
         $result = $sth->fetchALL(PDO::FETCH_ASSOC);
-        if($result === false){
+        if ($result === false) {
             return [];
         }
 
         return $result;
+    }
+
+    public function lastInsertId()
+    {
+        return $this->link->lastInsertId();
     }
 }
 ?>

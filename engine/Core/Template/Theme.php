@@ -80,11 +80,14 @@ class Theme{
      * @param array $data
      * @return void
      */
-    private function loadTemplateFile($nameFile, $data = []){
-        $templateFile = ROOT_DIR . '/content/themes/default/' . $nameFile . '.php';
-
-        if(is_file($templateFile)){
-            extract($data);
+    private function loadTemplateFile($nameFile, $data = [])
+    {
+        if (ENV == 'Admin') {
+            $templateFile = ROOT_DIR . '/View/' . $nameFile . '.php';
+        }
+            
+        if (is_file($templateFile)) {
+            extract(array_merge($data, $this->data));
             require_once $templateFile;
         }
         else {

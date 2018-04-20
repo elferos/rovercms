@@ -58,16 +58,6 @@ class View{
         }
 
         return ROOT_DIR . '/View/' . $template . '.php';
-        // switch ($env){
-        //     case 'Admin':
-        //         return ROOT_DIR . '/View/' . $template . '.php';
-        //         break;
-        //     case 'Cms':
-        //         return ROOT_DIR . '/content/themes/default' . $template . '.php';
-        //         break;
-        //     default:
-        //         return ROOT_DIR . '/View/' . $template . '.php';
-        // }
     }
 }
 ?>
