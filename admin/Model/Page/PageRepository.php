@@ -12,20 +12,20 @@ class PageRepository extends Model
             ->from('page')
             ->orderBy('id', 'DESC')
             ->sql();
-            
+
         return $this->db->query($sql);
     }
 
-    public function getPageData($id)    
+    public function getPageData($id)
     {
         $page = new Page($id);
 
         return $page->findOne();
     }
-    
+
     /**
-     * @param [type] $params
-     * @return void
+     * @param $params
+     * @return mixed
      */
     public function createPage($params)
     {
@@ -37,10 +37,6 @@ class PageRepository extends Model
         return $pageId;
     }
 
-    /**
-     * @param [type] $params
-     * @return void
-     */
     public function updatePage($params)
     {
         if (isset($params['page_id'])) {
@@ -50,5 +46,4 @@ class PageRepository extends Model
             $page->save();
         }
     }
-
 }

@@ -1,69 +1,75 @@
 <?php
+
 namespace Engine\Core\Auth;
 
 use Engine\Helper\Cookie;
 
-class Auth implements AuthInterface{
+class Auth implements AuthInterface
+{
     /**
-     * @var boolean
+     * @var bool
      */
     protected $authorized = false;
     protected $hash_user;
 
     /**
-     * @return void
+     * @return bool
      */
-    public function authorized(){
+    public function authorized()
+    {
         return $this->authorized;
     }
 
+    public function setAuthorized()
+    {
+        $this->authorized = true;
+    }
+
     /**
-     * @return void
+     * @return mixed
      */
-    public function hashUser(){
+    public function hashUser()
+    {
         return Cookie::get('auth_user');
     }
 
     /**
      * User authorization
-     *
-     * @param [type] $user
-     * @return void
+     * @param $user
      */
-    public function authorize($user){
+    public function authorize($user)
+    {
         Cookie::set('auth_authorized', true);
         Cookie::set('auth_user', $user);
     }
 
     /**
-     * User unauthorization
-     *
+     * User unAuthorization
      * @return void
      */
-    public function unAuthorize(){
+    public function unAuthorize()
+    {
         Cookie::delete('auth_authorized');
         Cookie::delete('auth_user');
     }
 
     /**
      * Generates a new random password salt
-     *
      * @return int
      */
-    public static function salt(){
+    public static function salt()
+    {
         return (string) rand(10000000, 99999999);
     }
 
     /**
      * Generates a hash
-     *
-     * @param [type] $password
+     * @param string $password
      * @param string $salt
      * @return string
      */
-    public static function encryptPassword($password, $salt = ''){
+    public static function encryptPassword($password, $salt = '')
+    {
         return hash('sha256', $password . $salt);
     }
 }
-
-?>

@@ -1,4 +1,5 @@
 <?php
+
 namespace Admin\Controller;
 
 use Engine\Controller;
@@ -14,7 +15,7 @@ class LoginController extends Controller
     protected $auth;
 
     /**
-     * LoginController constructor
+     * LoginController constructor.
      * @param DI $di
      */
     public function __construct(DI $di)
@@ -23,27 +24,21 @@ class LoginController extends Controller
 
         $this->auth = new Auth();
 
-        if($this->auth->hashUser() !== null) {
+        if ($this->auth->hashUser() !== null) {
             // redirect
-            header('Location: /rovercms/admin/');
+            header( 'Location: /rovercms/admin/');
             exit;
         }
     }
 
-    /**
-     * @return void
-     */
     public function form()
     {
         $this->view->render('login');
     }
 
-    /**
-     * @return void
-     */
     public function authAdmin()
     {
-        $params = $this->request->post;
+        $params       = $this->request->post;
         $queryBuilder = new QueryBuilder();
 
         $sql = $queryBuilder
@@ -66,19 +61,16 @@ class LoginController extends Controller
                     ->update('user')
                     ->set(['hash' => $hash])
                     ->where('id', $user['id'])->sql();
-    
+
                 $this->db->execute($sql, $queryBuilder->values);
 
                 $this->auth->authorize($hash);
 
-                header('Location: /rovercms/admin/login/');
+                header( 'Location: /rovercms/admin/login/');
                 exit;
             }
         }
 
-        echo 'Incorrect email or password';
+        echo 'Incorrect email or password.';
     }
 }
-
-
-?>

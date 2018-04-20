@@ -1,8 +1,9 @@
 <?php
+
 namespace Engine\Core\Request;
 
-class Request{
-
+class Request
+{
     /**
      * @var array
      */
@@ -33,7 +34,11 @@ class Request{
      */
     public $server = [];
 
-    public function __construct(){
+    /**
+     * Request constructor.
+     */
+    public function __construct()
+    {
         $this->get     = $_GET;
         $this->post    = $_POST;
         $this->request = $_REQUEST;
@@ -42,4 +47,3 @@ class Request{
         $this->server  = $_SERVER;
     }
 }
-?>

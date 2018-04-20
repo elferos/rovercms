@@ -1,37 +1,50 @@
 <?php
+
 namespace Engine\Core\Template;
 
 use Engine\Core\Template\Theme;
+use Engine\DI\DI;
 
-class View{
+class View
+{
+    /**
+     * @var \Engine\DI\DI
+     */
+    public $di;
+
     /**
      * @var \Engine\Core\Template\Theme
      */
     protected $theme;
 
     /**
-     * View conctructor
+     * View constructor.
+     * @param DI $di
      */
-    public function __construct(){
+    public function __construct(DI $di)
+    {
+        $this->di    = $di;
         $this->theme = new Theme();
     }
 
     /**
-     * @param [type] $template
+     * @param $template
      * @param array $vars
-     * @return void
+     * @throws \Exception
      */
-    public function render($template, $vars = []){
+    public function render($template, $vars = [])
+    {
         $templatePath = $this->getTemplatePath($template, ENV);
 
-        if (!is_file($templatePath)) {
+        if(!is_file($templatePath))
+        {
             throw new \InvalidArgumentException(
                 sprintf('Template "%s" not found in "%s"', $template, $templatePath)
             );
         }
 
+        $vars['lang'] = $this->di->get('language');
         $this->theme->setData($vars);
-
         extract($vars);
 
         ob_start();
@@ -39,7 +52,7 @@ class View{
 
         try{
             require $templatePath;
-        }catch(\Exception $e){
+        }catch (\Exception $e){
             ob_end_clean();
             throw $e;
         }
@@ -47,17 +60,19 @@ class View{
         echo ob_get_clean();
     }
 
+
     /**
-     * @param [type] $template
-     * @param [type] $env
-     * @return void
+     * @param $template
+     * @param null $env
+     * @return string
      */
-    private function getTemplatePath($template, $env = null){
-        if($env == 'Cms'){
+    private function getTemplatePath($template, $env = null)
+    {
+        if($env === 'Cms')
+        {
             return ROOT_DIR . '/content/themes/default/' . $template . '.php';
         }
 
         return ROOT_DIR . '/View/' . $template . '.php';
     }
 }
-?>

@@ -5,56 +5,59 @@ namespace Engine\Core\Database;
 use \PDO;
 use Engine\Core\Config\Config;
 
-class Connection {
+class Connection
+{
     private $link;
 
     /**
-     * Connection constructor
+     * Connection constructor.
      */
-    public function __construct(){
+    public function __construct()
+    {
         $this->connect();
     }
 
     /**
      * @return $this
      */
-    private function connect(){
-        // $config = require_once 'config.php';
+    private function connect()
+    {
         $config = Config::file('database');
 
         $dsn = 'mysql:host='.$config['host'].';dbname='.$config['db_name'].';charset='.$config['charset'];
 
-        try {
-            $this->link = new PDO($dsn, $config['username'], $config['password']);
-        } catch (PDOException $e) {
-            echo 'Подключение не удалось: ' . $e->getMessage();
-        }
-        // var_dump($this->link);
+        $this->link = new PDO($dsn, $config['username'], $config['password']);
+
         return $this;
     }
 
     /**
-     * @param [type] $sql
+     * @param $sql
      * @param array $values
-     * @return void
+     * @return mixed
      */
     public function execute($sql, $values = [])
     {
         $sth = $this->link->prepare($sql);
+
         return $sth->execute($values);
     }
 
     /**
-     * @param [type] $sql
+     * @param $sql
      * @param array $values
-     * @return void
+     * @param int $statement
+     * @return array
      */
-    public function query($sql, $values = [])
+    public function query($sql, $values = [], $statement = PDO::FETCH_OBJ)
     {
         $sth = $this->link->prepare($sql);
+
         $sth->execute($values);
-        $result = $sth->fetchALL(PDO::FETCH_ASSOC);
-        if ($result === false) {
+
+        $result = $sth->fetchAll($statement);
+
+        if($result === false){
             return [];
         }
 
@@ -66,4 +69,3 @@ class Connection {
         return $this->link->lastInsertId();
     }
 }
-?>

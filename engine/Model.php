@@ -8,21 +8,22 @@ use Engine\DI\DI;
 abstract class Model
 {
     /**
-     * @var Engine\DI\DI
+     * @var DI
      */
     protected $di;
 
     protected $db;
-    
+
     protected $config;
 
     public $queryBuilder;
 
     /**
-     * Model constructor
-     * @param DI $di
+     * Model constructor.
+     * @param $di
      */
-    public function __construct(DI $di){
+    public function __construct(DI $di)
+    {
         $this->di      = $di;
         $this->db      = $this->di->get('db');
         $this->config  = $this->di->get('config');
@@ -30,5 +31,3 @@ abstract class Model
         $this->queryBuilder = new QueryBuilder();
     }
 }
-
-?>

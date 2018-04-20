@@ -86,11 +86,7 @@ class QueryBuilder
         return $this;
     }
 
-    /**
-     * @param [type] $table
-     * @return void
-     */
-    public function insert($table)    
+    public function insert($table)
     {
         $this->reset();
         $this->sql['insert'] = "INSERT INTO {$table} ";
@@ -106,7 +102,7 @@ class QueryBuilder
     {
         $this->sql['set'] .= "SET ";
 
-        if (!empty($data)) {
+        if(!empty($data)) {
             foreach ($data as $key => $value) {
                 $this->sql['set'] .= "{$key} = ?";
                 if (next($data)) {
@@ -154,5 +150,3 @@ class QueryBuilder
         $this->values = [];
     }
 }
-
-?>

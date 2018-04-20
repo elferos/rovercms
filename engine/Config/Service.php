@@ -8,5 +8,3 @@ return [
     Engine\Service\Request\Provider::class,
     Engine\Service\Load\Provider::class
 ];
-
-?>

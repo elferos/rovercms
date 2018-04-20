@@ -2,7 +2,8 @@
 
 namespace Engine\Core\Router;
 
-class UrlDispatcher{
+class UrlDispatcher
+{
     /**
      * @var array
      */
@@ -24,74 +25,90 @@ class UrlDispatcher{
      */
     private $patterns = [
         'int' => '[0-9]+',
-        'str' => '[a-zA-z\.\-_%]+',
-        'any' => '[a-zA-z0-9\.\-_%]+',
+        'str' => '[a-zA-Z\.\-_%]+',
+        'any' => '[a-zA-Z0-9\.\-_%]+'
     ];
 
     /**
-     * @param [type] $key
-     * @param [type] $pattern
+     * @param $key
+     * @param $pattern
      */
-    public function addPattern($key, $pattern){
+    public function addPattern($key, $pattern)
+    {
         $this->patterns[$key] = $pattern;
     }
 
     /**
-     * @param [type] $method
+     * @param $method
      * @return array|mixed
      */
-    public function routes($method){
+    private function routes($method)
+    {
         return isset($this->routes[$method]) ? $this->routes[$method] : [];
     }
 
-    public function register($method, $pattern, $controller){
+    /**
+     * @param $method
+     * @param $pattern
+     * @param $controller
+     */
+    public function register($method, $pattern, $controller)
+    {
         $convert = $this->convertPattern($pattern);
         $this->routes[strtoupper($method)][$convert] = $controller;
     }
 
     /**
-     * @param [type] $pattern
+     * @param $pattern
      * @return mixed
      */
-    private function convertPattern($pattern){
-        if(strpos($pattern, '(') === false){
+    private function convertPattern($pattern)
+    {
+        if(strpos($pattern, '(') === false)
+        {
             return $pattern;
         }
 
         return preg_replace_callback('#\((\w+):(\w+)\)#', [$this, 'replacePattern'], $pattern);
     }
 
-
     /**
-     * @param [type] $matches
+     * @param $matches
      * @return string
      */
-    private function replacePattern($matches){
-        return '(?<'.$matches[1].'>'.strtr($matches[2], $this->patterns).')';
+    private function replacePattern($matches)
+    {
+        return '(?<' .$matches[1]. '>'. strtr($matches[2], $this->patterns) .')';
     }
 
     /**
-     * @param [type] $parameters
+     * @param $parameters
      * @return mixed
      */
-    private function processParam($parameters){
-        foreach($parameters as $key => $value){
-            if(is_int($key)){
+    private function processParam($parameters)
+    {
+        foreach($parameters as $key => $value)
+        {
+            if(is_int($key))
+            {
                 unset($parameters[$key]);
             }
         }
 
         return $parameters;
     }
-    
+
     /**
-     * @param [type] $method
-     * @param [type] $uri
+     * @param $method
+     * @param $uri
      * @return DispatchedRoute|void
      */
-    public function dispatch($method, $uri){
+    public function dispatch($method, $uri)
+    {
         $routes = $this->routes(strtoupper($method));
-        if(array_key_exists($uri, $routes)){
+
+        if(array_key_exists($uri, $routes))
+        {
             return new DispatchedRoute($routes[$uri]);
         }
 
@@ -99,20 +116,20 @@ class UrlDispatcher{
     }
 
     /**
-     * @param [type] $method
-     * @param [type] $uri
+     * @param $method
+     * @param $uri
      * @return DispatchedRoute
      */
-    private function doDispatch($method, $uri){
-        foreach ($this->routes($method) as $route => $controller) {
-            $pattern = '#^'. $route . '$#s';
+    private function doDispatch($method, $uri)
+    {
+        foreach($this->routes($method) as $route => $controller)
+        {
+            $pattern = '#^' . $route . '$#s';
 
-            if (preg_match($pattern, $uri, $parameters)) {
+            if(preg_match($pattern, $uri, $parameters))
+            {
                 return new DispatchedRoute($controller, $this->processParam($parameters));
             }
         }
     }
 }
-
-
-?>

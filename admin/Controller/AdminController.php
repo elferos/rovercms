@@ -1,4 +1,5 @@
 <?php
+
 namespace Admin\Controller;
 
 use Engine\Controller;
@@ -17,7 +18,7 @@ class AdminController extends Controller
     public $data = [];
 
     /**
-     * AdminController constructor
+     * AdminController constructor.
      * @param \Engine\DI\DI $di
      */
     public function __construct($di)
@@ -27,26 +28,26 @@ class AdminController extends Controller
         $this->auth = new Auth();
 
         if ($this->auth->hashUser() == null) {
-            // redirect to login form
             header('Location: /rovercms/admin/login/');
             exit;
         }
+
+        // Load global language
+        $this->load->language('dashboard/menu');
     }
 
     /**
-     * @return void
+     * Check Auth
      */
-    public function checkAuthorization(){
+    public function checkAuthorization()
+    {
 
     }
 
     public function logout()
     {
         $this->auth->unAuthorize();
-        // redirect to login form
         header('Location: /rovercms/admin/login/');
         exit;
     }
 }
-
-?>
